@@ -1,5 +1,6 @@
 {
     "name": "gkcosapi/cospackage",
+	"license" : "MIT",
     "authors": [
         {
             "name": "rex",
