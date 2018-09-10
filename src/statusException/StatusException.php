@@ -1,7 +1,7 @@
 <?php
 
 namespace Gkcosapi\Cospackage\statusException;
-class statusException
+class StatusException
 {
     protected $statusCode = 200;
 
