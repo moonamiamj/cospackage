@@ -7,14 +7,10 @@
 
 namespace Gkcosapi\Cospackage;
 
-use App\Helpers\Tools;
-use App\Models\File;
-use Gkcosapi\Cospackage\statusException\statusException;
-//use App\Models\Image;
-//use App\Services\CloudObjectStorageService;
+use Gkcosapi\Cospackage\statusException\StatusException;
+use Gkcosapi\Cospackage\statusException\CurlCommon;
 
-
-class Cospackage extends statusException
+class Cospackage extends StatusException
 {
     /**
      * API 获取上传参数
@@ -24,10 +20,10 @@ class Cospackage extends statusException
      * @param1 _application string
      * @param2 _type string
      */
-    public function getUploadParam($application='jike-wap',$type=1)
+    public function getUploadParam($application = 'jike-wap', $type = 1)
     {
         // 检查必填参数
-        $pathname=time() . rand(10000, 99999);
+        $pathname = time() . rand(10000, 99999);
         $cosService = new CosService();
 
         // 获取上传文件夹
@@ -48,7 +44,7 @@ class Cospackage extends statusException
         $region = env('COS_REGION', 'cn-sorth');
         $data['region'] = $regionmap[$region];
 
-        return $this->response(Tools::setData($data));
+        return $data;
     }
 
     /**
@@ -59,7 +55,7 @@ class Cospackage extends statusException
      * @param1 _fileType string
      * @param2 _method string
      */
-    public function getUploadSign($fileType="image",$method="post")
+    public function getUploadSign($fileType = "image", $method = "post")
     {
         $cosService = new CosService();
 
@@ -70,29 +66,34 @@ class Cospackage extends statusException
             $data['sign'] = $cosService->createVideoSign();
         }
 
-        return $this->response(Tools::setData($data));
+        return $data;
     }
 
     /**
-     * API 回写数据
-     * @return \Illuminate\Http\JsonResponse
+     * API 获取资源路径
+     * @return array
      * @author lwj <381244953@qq.com>
      * @since huangjinbing <373768442@qq.com>
-     * @param1 _Type string
-     * @param2 _path string
+     * @param1 _url string
      */
-    public function postSaveFile($path,$type="image")
+    public function getResource($url)
     {
-        // 判断上传文件的类型
-        if ($type == 'image') {
-            $result = Image::insertData($path, APPLICATION);
-        } else {
-            $result = File::insertData($path, APPLICATION);
-        }
-        dd($result);
-        if ($result) {
-            return $this->response(Tools::setData($result));
-        }
-        return $this->response(Tools::error());
+        $fileUrl= $url;
+        // 获取文件的详细信息
+        $imageInfo = CurlCommon::requestWithHeader($fileUrl . '?imageInfo', 'GET');
+        if (!isset($imageInfo['size'])) return false;
+
+        // 整合入库数据
+        $pathInfo = pathinfo($fileUrl);
+        $data = [
+            'name' => $pathInfo['basename'] ?? '',
+            'url' => $url,
+            'file_type' => $imageInfo['format'] ?? '',
+            'file_size' => $imageInfo['size'] ?? 0,
+            'width' => $imageInfo['width'] ?? 0,
+            'height' => $imageInfo['height'] ?? 0
+        ];
+        return $data;
     }
+
 }
