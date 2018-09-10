@@ -7,9 +7,8 @@
 
 namespace Gkcosapi\Cospackage;
 
-
-use App\Helpers\Tools;
 use Carbon\Carbon;
+use Gkcosapi\Cospackage\statusException\CurlCommon;
 use Qcloud\Cos\Client;
 use Vod\VodApi;
 
@@ -243,7 +242,7 @@ class CosService
             }
 
         } catch (\Exception $e) {
-            Tools::logUnusualError($e);
+            CurlCommon::logUnusualError($e);
         }
 
         return false;
@@ -271,7 +270,6 @@ class CosService
         ];
 
         $result = VodApi::upload($upload, $param);
-        \Log::info(print_r($result,true));
         echo "upload to vod result: " . json_encode($result) . "\n";
     }
 }
