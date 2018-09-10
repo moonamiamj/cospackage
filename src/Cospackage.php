@@ -7,28 +7,26 @@
 
 namespace Gkcosapi\Cospackage;
 
-//use App\Helpers\Tools;
-//use App\Models\File;
+use App\Helpers\Tools;
+use App\Models\File;
 //use App\Models\Image;
 //use App\Services\CloudObjectStorageService;
 
 
-class Cospackage
+class Cospackage extends statusException
 {
     /**
-     * 外部获取上传参数
+     * API 获取上传参数
      * @return \Illuminate\Http\JsonResponse
-     * @author huangjinbing <373768442@qq.com>
+     * @author lwj <381244953@qq.com>
+     * @since huangjinbing <373768442@qq.com>
+     * @param1 _application string
+     * @param2 _type string
      */
-    public function getUploadParam()
+    public function getUploadParam($application='jike-wap',$type=1)
     {
-        return '123';
         // 检查必填参数
-
-        $type = $data['type'];
-        $pathname =  $data['pathname'];
-        $application =  $data['application'];
-
+        $pathname=time() . rand(10000, 99999);
         $cosService = new CosService();
 
         // 获取上传文件夹
@@ -53,16 +51,16 @@ class Cospackage
     }
 
     /**
-     * 外部获取上传签名
+     * API 获取上传签名
      * @return \Illuminate\Http\JsonResponse
-     * @author huangjinbing <373768442@qq.com>
+     * @author lwj <381244953@qq.com>
+     * @since huangjinbing <373768442@qq.com>
+     * @param1 _fileType string
+     * @param2 _method string
      */
-    public function getUploadSign()
+    public function getUploadSign($fileType="image",$method="post")
     {
-        $fileType = request('file_type', 'image');
-        $method = request('method', 'post');
-
-        $cosService = new CloudObjectStorageService();
+        $cosService = new CosService();
 
         // 生成API签名
         if ($fileType == 'image') {
@@ -75,18 +73,15 @@ class Cospackage
     }
 
     /**
-     * 回写数据
+     * API 回写数据
      * @return \Illuminate\Http\JsonResponse
-     * @author huangjinbing <373768442@qq.com>
+     * @author lwj <381244953@qq.com>
+     * @since huangjinbing <373768442@qq.com>
+     * @param1 _Type string
+     * @param2 _path string
      */
-    public function postSaveFile()
+    public function postSaveFile($path,$type="image")
     {
-        // 检查必填参数
-        Tools::checkRequest(['path']);
-
-        $type = request('file_type', 'image');
-        $path = request('path');
-
         // 判断上传文件的类型
         if ($type == 'image') {
             $result = Image::insertData($path, APPLICATION);
