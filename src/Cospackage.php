@@ -20,17 +20,16 @@ class Cospackage extends StatusException
      * @param1 _application string
      * @param2 _type string
      */
-    public function getUploadParam($application = 'jike-wap', $type = 1)
+    public function getUploadParam($key)
     {
         // 检查必填参数
         $pathname = time() . rand(10000, 99999);
-        $cosService = new CosService();
 
         // 获取上传文件夹
-        $data['path'] = $cosService->getUploadFolder($application, $type) . $pathname;
+        $data['path'] = $key . '/' . $pathname;
 
         // 返回存储桶，地区
-        $data['bucket'] = env('COS_BUCKET', 'share-static') . '-' . env('COS_APP_ID', '1255605079');
+        $data['bucket'] = env('COS_BUCKET') . '-' . env('COS_APP_ID');
 
         // 存储地区
         $regionmap = [
