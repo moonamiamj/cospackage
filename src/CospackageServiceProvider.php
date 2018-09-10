@@ -19,10 +19,7 @@ class CospackageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-       // $this->loadViewsFrom(__DIR__ . '/views', 'Cospackage'); // 视图目录指定
-       // $this->loadMigrationsFrom(__DIR__.'/migrations'); //加载数据
         $this->publishes([
-          //  __DIR__.'/views' => base_path('resources/views/vendor/Cospackage'),  // 发布视图目录到resources 下
           __DIR__.'/config/cospackage.php' => config_path('activities.php'), // 发布配置文件到 laravel 的config 下
         ]);
     }
