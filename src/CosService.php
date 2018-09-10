@@ -32,8 +32,7 @@ class CosService
      */
     public function __construct()
     {
-        $this->config=$config;
-        $this->config=$session;
+        $this->config= config('cosapi.options');;
     }
 
     /**
@@ -41,8 +40,10 @@ class CosService
      * @param $method
      * @param $pathname
      * @return string
-     * @author huangjinbing <373768442@qq.com>
+     * @author lwj <381244953@qq.com>
+     * @since huangjinbing <373768442@qq.com>
      */
+
     public function createImageSign($method, $pathname = '')
     {
         // 获取个人 API 密钥 https://console.qcloud.com/capi
@@ -124,7 +125,8 @@ class CosService
 
     /**
      * @return string
-     * @author huangjinbing <373768442@qq.com>
+     * @author lwj <381244953@qq.com>
+     * @since huangjinbing <373768442@qq.com>
      */
     public function createVideoSign()
     {
@@ -153,6 +155,8 @@ class CosService
      * 获取上传文件夹
      * @param $type
      * @return string
+     * @author lwj <381244953@qq.com>
+     * @since huangjinbing <373768442@qq.com>
      */
     public function getUploadFolder($application, $type)
     {
@@ -197,7 +201,8 @@ class CosService
      * @param string $filePath 文件路径
      * @param string $postfix 文件后缀
      * @return bool
-     * @author huangjinbing <373768442@qq.com>
+     * @author lwj <381244953@qq.com>
+     * @since huangjinbing <373768442@qq.com>
      */
     public function uploadImage($application, $type, $filePath, $postfix = '.png')
     {
