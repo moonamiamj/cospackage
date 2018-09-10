@@ -1,0 +1,15 @@
+{
+    "name": "gkcosapi/cospackage",
+    "authors": [
+        {
+            "name": "rex",
+            "email": "381244953@qq.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Gkcosapi\\Cospackage\\": "src/"
+        }
+    },
+    "require": {}
+}
