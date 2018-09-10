@@ -80,7 +80,6 @@ class Cospackage extends StatusException
         $fileUrl= $url;
         // 获取文件的详细信息
         $imageInfo = CurlCommon::requestWithHeader($fileUrl . '?imageInfo', 'GET');
-        dd($imageInfo);
         if (!isset($imageInfo['size'])) return false;
 
         // 整合入库数据
