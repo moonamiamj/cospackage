@@ -22,7 +22,7 @@ class CosService
     /**
      * @var 配置项
      */
-    protected $config;
+    protected $options;
 
     /**
      * Packagetest constructor.
@@ -31,7 +31,7 @@ class CosService
      */
     public function __construct()
     {
-        $this->config= config('cosapi.options');;
+        $this->options= config('cosapi.options');
     }
 
     /**
