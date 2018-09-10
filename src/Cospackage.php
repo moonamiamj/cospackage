@@ -26,7 +26,7 @@ class Cospackage extends StatusException
         $pathname = time() . rand(10000, 99999);
 
         // 获取上传文件夹
-        $data['path'] = $key . '/' . $pathname;
+        $data['path'] = $key . date('/Y/m/d') . '/' . $pathname;
 
         // 返回存储桶，地区
         $data['bucket'] = env('COS_BUCKET') . '-' . env('COS_APP_ID');
