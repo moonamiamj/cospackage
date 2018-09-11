@@ -42,7 +42,6 @@ class Cospackage extends StatusException
         ];
         $region = env('COS_REGION', 'cn-sorth');
         $data['region'] = $regionmap[$region];
-
         return $data;
     }
 
@@ -95,4 +94,18 @@ class Cospackage extends StatusException
         return $data;
     }
 
+    /**
+     * API 上传文件
+     * @return array
+     * @author lwj <381244953@qq.com>
+     * @since huangjinbing <373768442@qq.com>
+     * @param1  mercharID string
+     * @param2  path filepath
+     * @param3  postfix fix
+     */
+    public function uploadFile($mercharID,$path,$postfix)
+    {
+        $cosService = new CosService();
+        return $cosService -> uploadImage($mercharID,$path,$postfix);
+    }
 }
