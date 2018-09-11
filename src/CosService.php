@@ -196,14 +196,14 @@ class CosService
 
     /**
      * 内部上传文件
-     * @param string $type 类型，用于获取文件夹目录
+     * @param string $merchar_id 类型，商家ID
      * @param string $filePath 文件路径
      * @param string $postfix 文件后缀
      * @return bool
      * @author lwj <381244953@qq.com>
      * @since huangjinbing <373768442@qq.com>
      */
-    public function uploadImage($application, $type, $filePath, $postfix = '.png')
+    public function uploadImage($merchar_id,$filePath, $postfix = '.png')
     {
         // 配置
         $configs = [
@@ -221,28 +221,25 @@ class CosService
         // 打开图片资源
         $file = fopen($filePath, 'r');
 
-        // 获取文件夹与文件名
-        $folder = $this->getUploadFolder($application, $type);
+        $folder = '/'.$merchar_id.'/'.date('Y/m/d');
+        $fileName = time() . rand(10000, 99999) .'.' .$postfix;
 
-        // 内部使用删除前面斜杆
-        $folder = str_replace_once('/', '', $folder);
-
-        $fileName = time() . rand(10000, 99999) . $postfix;
-
+        $fileData=[
+            'Bucket' => $this->options['bucket'],
+            'Key' => $folder . $fileName,
+            'Body' => fopen($file, 'rb')
+        ];
         // 上传
         try {
-            $result = $cosClient->putObject([
-                'Bucket' => $this->options['bucket'],
-                'Key' => $folder . $fileName,
-                'Body' => $file]);
-            \Log::info(print_r($result,true));
+            $result = $cosClient->putObject($fileData);
+            // \Log::info(print_r($result,true));
             if (isset($result['ObjectURL'])) {
                 $parseUrl = parse_url(urldecode($result['ObjectURL']));
                 return $parseUrl['path'];
             }
 
         } catch (\Exception $e) {
-            CurlCommon::logUnusualError($e);
+            //   CurlCommon::logUnusualError($e);
         }
 
         return false;
