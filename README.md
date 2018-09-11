@@ -1,4 +1,4 @@
-#cos扩张包使用说明
+#cos扩张包使用说明0.0
 ##项目根目录配置
     "require": {
         "gkcosapi/cospackage": "~1.0",
