@@ -20,9 +20,13 @@ $app->register(Gkcosapi\Cospackage\CospackageServiceProvider::class);
 
 
 #使用说明
+
 ##1、在业务层引用扩展包 use Gkcosapi\Cospackage\Facades\Cospackage;
+
 ##2、Cospackage::uploadFile($file->getPathname(), 'jpg');//调取扩展函数 进行cos文件上传工作
+
 ##3、函数介绍：
+
 ###Cospackage::uploadFile($file->getPathname(), 'jpg');//cos文件上传工作
 
 ###Cospackage::getResource($url)//获取文件资源
