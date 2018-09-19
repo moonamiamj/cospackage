@@ -8,7 +8,7 @@
  项目根目录composer.json配置require
  ----
     "require": {
-        "gkcosapi/cospackage": "~3.0",
+        "moonamiamj/cospackage": "~3.0",
         }
 
 通过COMPOSER 命令获取项目
